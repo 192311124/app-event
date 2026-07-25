@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Base64
+import com.example.rent.BuildConfig
 import com.example.rent.ui.screens.DecorDesignModel
 import com.example.rent.ui.screens.VenueAnalysisResult
 import kotlinx.coroutines.Dispatchers
@@ -17,8 +18,8 @@ import java.net.URL
 
 object GeminiImageAnalyzer {
 
-    // Configure your Gemini API Key here for real-time vision analysis
-    var GEMINI_API_KEY: String = ""
+    // Configure your Gemini API Key here or in local.properties
+    var GEMINI_API_KEY: String = BuildConfig.GEMINI_API_KEY
 
     suspend fun analyzeImageWithGemini(
         context: Context,
