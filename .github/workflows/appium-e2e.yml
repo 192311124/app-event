@@ -9,7 +9,7 @@ on:
 
 jobs:
   mobile-e2e-tests:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 45
 
     steps:
@@ -38,7 +38,6 @@ jobs:
           arch: x86_64
           profile: Pixel_6
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |
             echo "Android Emulator is online and ready."
             adb devices
