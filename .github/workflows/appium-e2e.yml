@@ -21,7 +21,6 @@ jobs:
         with:
           node-version: '22'
 
-
       - name: 3. Install Java JDK 17
         uses: actions/setup-java@v4
         with:
@@ -59,14 +58,22 @@ jobs:
             npm test || true
             npm run report:excel || true
 
-      - name: 7. Upload Test Artifacts
+      - name: 7. Ensure Report Directory & Standalone Excel Generation
+        if: always()
+        run: |
+          mkdir -p excel reports screenshots logs
+          npm run report:excel || true
+
+      - name: 8. Upload Downloadable Mobile E2E Excel & Test Reports
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Appium-Mobile-E2E-Test-Results
+          name: Appium-Mobile-E2E-Excel-Report
           path: |
             excel/Mobile_E2E_Report.xlsx
-            reports/
-            screenshots/
-            logs/
+            excel/**
+            reports/**
+            screenshots/**
+            logs/**
+          if-no-files-found: warn
           retention-days: 30
