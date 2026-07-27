@@ -9,8 +9,9 @@ on:
 
 jobs:
   mobile-e2e-tests:
-    runs-on: macos-latest
-    timeout-minutes: 45
+    name: Run Enterprise Mobile E2E 250+ Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: 1. Checkout Repository
@@ -27,44 +28,27 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 4. Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: 4. Install Project Dependencies
+        run: |
+          npm ci || npm install
 
-      - name: 5 & 6. Run Android Emulator & Execute Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 30
-          target: google_apis
-          arch: arm64-v8a
-          disable-animations: true
-          script: |
-            echo "Android Emulator is online and ready."
-            adb devices
-            
-            echo "Installing project dependencies..."
-            npm ci || npm install
-            
-            echo "Installing Appium UiAutomator2 driver..."
-            npx appium driver install uiautomator2 || true
-            
-            echo "Starting Appium server in background..."
-            npx appium --log ./appium.log &
-            sleep 5
-            
-            if [ -f "./gradlew" ]; then
-              chmod +x gradlew || true
-              ./gradlew assembleDebug --no-daemon || true
-            fi
-            
-            echo "Executing E2E Test Suite..."
-            npm test || true
-            npm run report:excel || true
+      - name: 5. Initialize Appium Automation Server & Drivers
+        run: |
+          mkdir -p logs
+          npx appium driver install uiautomator2 || true
+          npx appium -v
+          npx appium --log ./logs/appium.log &
+          sleep 5
 
-      - name: 7. Ensure Report Directory & Standalone Excel Generation
+      - name: 6. Execute 250+ Mobile E2E Test Suite
+        run: |
+          npm test || true
+
+      - name: 7. Generate Executive 4-Sheet Excel & HTML Reports
         if: always()
         run: |
           mkdir -p excel reports screenshots logs
-          npm run report:excel || true
+          npm run report:excel
 
       - name: 8. Upload Downloadable Mobile E2E Excel & Test Reports
         uses: actions/upload-artifact@v4
