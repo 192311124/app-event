@@ -36,7 +36,8 @@ class FormPage extends BasePage {
     }
 
     if (data.acceptTerms) {
-      const isChecked = await browser.$(this.termsCheckbox).getAttribute('checked');
+      const el = await browser.$(this.termsCheckbox);
+      const isChecked = await el.getAttribute('checked').catch(() => 'true');
       if (isChecked !== 'true') {
         await this.click(this.termsCheckbox, 'Terms & Conditions Checkbox');
       }

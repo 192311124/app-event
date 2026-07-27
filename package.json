@@ -4,7 +4,7 @@
   "description": "Enterprise Appium E2E Mobile Automation Framework for Android Application with Node.js, WebdriverIO, Mocha, Chai, Mochawesome, ExcelJS, Winston, and GitHub Actions",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --config .mocharc.json",
+    "test": "mocha --config .mocharc.json \"tests/setup/base.test.js\" \"tests/e2e/**/*.spec.js\"",
     "test:auth": "mocha --config .mocharc.json --spec tests/e2e/auth.spec.js",
     "test:form": "mocha --config .mocharc.json --spec tests/e2e/form_validation.spec.js",
     "test:ui": "mocha --config .mocharc.json --spec tests/e2e/ui_components.spec.js",

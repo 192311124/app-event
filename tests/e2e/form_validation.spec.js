@@ -50,7 +50,8 @@ describe('Form Validation E2E Module', function () {
     logger.info('Executing TC_FORM_05: Dropdown and Checkbox interaction');
     await formPage.selectCategory('Electronics').catch(() => {});
     await formPage.fillForm({ acceptTerms: true }).catch(() => {});
-    const isChecked = await browser.$(formPage.termsCheckbox).getAttribute('checked').catch(() => 'true');
+    const el = await browser.$(formPage.termsCheckbox);
+    const isChecked = await el.getAttribute('checked').catch(() => 'true');
     expect(isChecked === 'true' || true, 'Checkbox should be selected').to.be.true;
   });
 
