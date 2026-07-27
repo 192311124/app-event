@@ -1,0 +1,46 @@
+{
+  "name": "enterprise-appium-android-e2e-framework",
+  "version": "1.0.0",
+  "description": "Enterprise Appium E2E Mobile Automation Framework for Android Application with Node.js, WebdriverIO, Mocha, Chai, Mochawesome, ExcelJS, Winston, and GitHub Actions",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --config .mocharc.json",
+    "test:auth": "mocha --config .mocharc.json --spec tests/e2e/auth.spec.js",
+    "test:form": "mocha --config .mocharc.json --spec tests/e2e/form_validation.spec.js",
+    "test:ui": "mocha --config .mocharc.json --spec tests/e2e/ui_components.spec.js",
+    "test:gestures": "mocha --config .mocharc.json --spec tests/e2e/gestures.spec.js",
+    "test:nav": "mocha --config .mocharc.json --spec tests/e2e/navigation.spec.js",
+    "test:perf": "mocha --config .mocharc.json --spec tests/e2e/performance.spec.js",
+    "test:smart": "mocha --config .mocharc.json --spec tests/e2e/smart_ai_discovery.spec.js",
+    "report:excel": "node -e \"require('./utilities/excel.reporter').generateReport()\"",
+    "clean": "rimraf reports screenshots logs excel"
+  },
+  "keywords": [
+    "appium",
+    "android",
+    "webdriverio",
+    "mocha",
+    "chai",
+    "exceljs",
+    "mochawesome",
+    "winston",
+    "e2e",
+    "mobile-automation"
+  ],
+  "author": "Senior Mobile QA Automation Architect",
+  "license": "ISC",
+  "dependencies": {
+    "appium": "^2.11.2",
+    "appium-uiautomator2-driver": "^3.7.6",
+    "chai": "^4.3.10",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "mocha": "^10.7.3",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0",
+    "rimraf": "^5.0.5",
+    "webdriverio": "^8.39.0",
+    "winston": "^3.13.0"
+  }
+}

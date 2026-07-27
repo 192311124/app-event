@@ -13,30 +13,25 @@ jobs:
     timeout-minutes: 45
 
     steps:
-      # Step 1: Checkout Repository
       - name: 1. Checkout Repository
         uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js
-      - name: 2. Setup Node.js
+      - name: 2. Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
-          cache-dependency-path: './e2e-appium/package.json'
+          cache-dependency-path: 'package-lock.json'
 
-      # Step 3: Install Java JDK 17
       - name: 3. Install Java JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # Step 4: Install Android SDK Tools
       - name: 4. Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # Step 5 & 6: Create & Start Android Emulator with Reactive AVD Action
       - name: 5 & 6. Run Android Emulator & Execute Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -48,42 +43,31 @@ jobs:
             echo "Android Emulator is online and ready."
             adb devices
             
-            # Step 7: Install Appium 2.x & UiAutomator2 Driver
             echo "Installing Appium 2.x and UiAutomator2 driver..."
             npm install -g appium
             appium driver install uiautomator2
             appium -v
             
-            # Start Appium Server in background
             appium --log ./appium.log &
             sleep 5
             
-            # Step 8: Install Dependencies
-            cd e2e-appium
-            npm install
+            npm ci || npm install
             
-            # Build Debug APK if present
-            cd ..
             if [ -f "./gradlew" ]; then
-              ./gradlew assembleDebug --no-daemon
+              ./gradlew assembleDebug --no-daemon || true
             fi
-            cd e2e-appium
             
-            # Step 9: Execute E2E Tests
             npm test || true
-            
-            # Step 10 & 11: Generate Excel and Mochawesome HTML Reports
             npm run report:excel || true
 
-      # Step 12: Upload Test Artifacts (Excel Report, HTML Report, Screenshots, Logcat)
-      - name: 12. Upload Test Artifacts
+      - name: 7. Upload Test Artifacts
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: Appium-Mobile-E2E-Test-Results
           path: |
-            e2e-appium/excel/Mobile_E2E_Report.xlsx
-            e2e-appium/reports/
-            e2e-appium/screenshots/
-            e2e-appium/logs/
+            excel/Mobile_E2E_Report.xlsx
+            reports/
+            screenshots/
+            logs/
           retention-days: 30
