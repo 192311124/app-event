@@ -57,9 +57,9 @@ jobs:
           name: Appium-Mobile-E2E-Excel-Report
           path: |
             excel/Mobile_E2E_Report.xlsx
-            excel/**
-            reports/**
-            screenshots/**
-            logs/**
+            excel/
+            reports/
+            screenshots/
+            logs/
           if-no-files-found: warn
           retention-days: 30
