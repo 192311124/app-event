@@ -38,3 +38,6 @@ local.properties
 .externalNativeBuild
 .cxx
 *.log
+
+
+node_modules
