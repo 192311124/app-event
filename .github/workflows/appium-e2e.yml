@@ -9,7 +9,7 @@ on:
 
 jobs:
   mobile-e2e-tests:
-    runs-on: macos-latest
+    runs-on: macos-13
     timeout-minutes: 45
 
     steps:
