@@ -1,0 +1,59 @@
+name: Baseline & Performance Load Testing Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      virtual_users:
+        description: 'Number of Concurrent Virtual Users (VUs)'
+        required: true
+        default: '100'
+      duration_seconds:
+        description: 'Test Duration in Seconds'
+        required: true
+        default: '60'
+
+jobs:
+  load-test:
+    name: Run 100 VUs Baseline Load Test (1 Minute)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 1. Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 2. Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 3. Install Dependencies
+        run: |
+          npm ci || npm install
+
+      - name: 4. Execute 100 VUs Baseline Load Test (60 Seconds)
+        run: |
+          npm run test:load || true
+
+      - name: 5. Generate Excel & Load Performance Summary
+        if: always()
+        run: |
+          mkdir -p excel reports screenshots logs
+          npm run report:excel
+
+      - name: 6. Upload Load Test Performance Reports & Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Appium-Mobile-Load-Test-Report
+          path: |
+            excel/Mobile_E2E_Report.xlsx
+            reports/load_test_summary.json
+            reports/
+            logs/
+          if-no-files-found: warn
+          retention-days: 30

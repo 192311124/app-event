@@ -12,6 +12,7 @@
     "test:nav": "mocha --config .mocharc.json --spec tests/e2e/navigation.spec.js",
     "test:perf": "mocha --config .mocharc.json --spec tests/e2e/performance.spec.js",
     "test:smart": "mocha --config .mocharc.json --spec tests/e2e/smart_ai_discovery.spec.js",
+    "test:load": "mocha --config .mocharc.json \"tests/setup/base.test.js\" \"tests/e2e/performance_load.spec.js\"",
     "report:excel": "node -e \"(async () => { const reporter = require('./utilities/excel.reporter'); await reporter.generateReport(); process.exit(0); })()\"",
     "clean": "rimraf reports screenshots logs excel"
   },
