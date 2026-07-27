@@ -1,0 +1,7 @@
+node_modules/
+reports/
+screenshots/
+logs/
+excel/
+.env
+.DS_Store

@@ -1,0 +1,18 @@
+{
+  "diff": true,
+  "extension": ["js"],
+  "package": "./package.json",
+  "reporter": "mochawesome",
+  "reporter-option": [
+    "reportDir=reports/mochawesome",
+    "reportFilename=mobile-e2e-report",
+    "quiet=true",
+    "overwrite=true",
+    "html=true",
+    "json=true"
+  ],
+  "slow": 5000,
+  "timeout": 120000,
+  "ui": "bdd",
+  "recursive": true
+}
